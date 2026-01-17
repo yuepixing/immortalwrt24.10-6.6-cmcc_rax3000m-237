@@ -21,5 +21,3 @@ sed -i "s/hostname='.*'/hostname='${FIRMWARE_NAME}'/g" package/base-files/files/
 sed -i "s/ImmortalWrt-2.4G/${FIRMWARE_NAME}-2.4G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 sed -i "s/ImmortalWrt-5G/${FIRMWARE_NAME}-5G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
 sed -i "s/luci-theme-bootstrap/luci-theme-argon/g" feeds/luci/collections/luci/Makefile
-./scripts/feeds update -a
-./scripts/feeds install -a
