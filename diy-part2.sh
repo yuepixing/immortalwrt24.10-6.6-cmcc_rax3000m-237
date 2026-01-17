@@ -11,9 +11,19 @@
 #
 
 # Modify default IP
+FIRMWARE_NAME="EasyWrt"
+FIRMWARE_AUTHOR="Yiying"
+DEFAULT_THEME="luci-theme-argon"
 sudo apt install libfuse-dev
 rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 24.x feeds/packages/lang/golang
-sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
+sed -i 's,SNAPSHOT,,g' include/version.mk
+sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
+sed -i "s/hostname='.*'/hostname='${FIRMWARE_NAME}'/g" package/base-files/files/bin/config_generate
+sed -i "s/DISTRIB_DESCRIPTION='.*'/DISTRIB_DESCRIPTION='${FIRMWARE_NAME}-$(date +%Y%m%d)'/g" package/base-files/files/etc/openwrt_release
+sed -i "s/DISTRIB_REVISION='.*'/DISTRIB_REVISION=' By ${FIRMWARE_AUTHOR}'/g" package/base-files/files/etc/openwrt_release
+sed -i "s/ImmortalWrt-2.4G/${FIRMWARE_NAME}-2.4G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
+sed -i "s/ImmortalWrt-5G/${FIRMWARE_NAME}-5G/g" package/mtk/applications/mtwifi-cfg/files/mtwifi.sh
+sed -i "s/luci-theme-bootstrap/${DEFAULT_THEME}/g" feeds/luci/collections/luci/Makefile
 ./scripts/feeds update -a
 ./scripts/feeds install -a
